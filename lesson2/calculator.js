@@ -10,12 +10,12 @@ let prompt = (message) => {
 };
 
 let invalidNum = (num) => {
-  return num.trimStart() === '' || Number.isNaN(Number(num));
+  return  Number.isNaN(Number(num));
 }; // validity function to confirm that the number provided by the user is !NaN
 
 //begin interaction with user
 prompt(config.chooseLanguagePrompt);
-let languageChoice = readline.question();
+let languageChoice = readline.question().toLowerCase();
 
 while (!VALID_LANGUAGE_CODES.includes(languageChoice)) {
   prompt("Please choose again");
@@ -23,45 +23,45 @@ while (!VALID_LANGUAGE_CODES.includes(languageChoice)) {
 }
 
 
-let promptCaller;
-switch (languageChoice) {
-  case 'en':
-    promptCaller = config.promptLanguage.en;
-    break;
-  case 'zh':
-    promptCaller = config.promptLanguage.zh;
-    break;
-  case 'es':
-    promptCaller = config.promptLanguage.es;
-    break;
-}
+let promptCaller = config.promptLanguage[languageChoice];
+// switch (languageChoice) {
+//   case 'en':
+//     promptCaller = config.promptLanguage.en;
+//     break;
+//   case 'zh':
+//     promptCaller = config.promptLanguage.zh;
+//     break;
+//   case 'es':
+//     promptCaller = config.promptLanguage.es;
+//     break;
+// }
 
 console.log(promptCaller.openingPrompt);
 
 prompt(promptCaller.beginCalculatingPrompt);
-let beginCalculating = readline.question();
+let beginCalculating = readline.question().toLowerCase();
 
 while (!VALID_CHOICES.includes(beginCalculating)) {
   prompt(promptCaller.validateYNPrompt);
-  beginCalculating = readline.question();
+  beginCalculating = readline.question().toLowerCase();
 }
 
 
-while (beginCalculating.toLowerCase() === 'y') {
+while (beginCalculating === 'y') {
   prompt(promptCaller.firstNumberPrompt);
-  let number1 = readline.question();
+  let number1 = Number(readline.question());
 
   while (invalidNum(number1)) {
     prompt(promptCaller.invalidNumberPrompt);
-    number1 = readline.question();
+    number1 = Number(readline.question());
   }
 
   prompt(promptCaller.secondNumberPrompt);
-  let number2 = readline.question();
+  let number2 = Number(readline.question());
 
   while (invalidNum(number2)) {
     prompt(promptCaller.invalidNumberPrompt);
-    number2 = readline.question();
+    number2 = Number(readline.question());
   }
 
   prompt(promptCaller.operationChoicePrompt);
@@ -76,16 +76,16 @@ while (beginCalculating.toLowerCase() === 'y') {
 
   switch (operation) {
     case '1':
-      output = Number(number1) + Number(number2);
+      output = number1 + number2;
       break;
     case '2':
-      output = Number(number1) - Number(number2);
+      output = number1 - number2;
       break;
     case '3':
-      output = Number(number1) * Number(number2);
+      output = number1 * number2;
       break;
     case '4':
-      output = Number(number1) / Number(number2);
+      output = number1 / number2;
       break;
   }
 
