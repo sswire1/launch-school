@@ -222,16 +222,33 @@
 //output: [["Red", "Green"], "MEDIUM", ["Red", "Green"], ["Orange"], "LARGE"]
 //
 
-let obj1 = {
-  grape: { type: 'fruit', colors: ['red', 'green'], size: 'small' },
-  carrot: { type: 'vegetable', colors: ['orange'], size: 'medium' },
-  apple: { type: 'fruit', colors: ['red', 'green'], size: 'medium' },
-  apricot: { type: 'fruit', colors: ['orange'], size: 'medium' },
-  marrow: { type: 'vegetable', colors: ['green'], size: 'large' },
-};
+// let obj1 = {
+//   grape: { type: 'fruit', colors: ['red', 'green'], size: 'small' },
+//   carrot: { type: 'vegetable', colors: ['orange'], size: 'medium' },
+//   apple: { type: 'fruit', colors: ['red', 'green'], size: 'medium' },
+//   apricot: { type: 'fruit', colors: ['orange'], size: 'medium' },
+//   marrow: { type: 'vegetable', colors: ['green'], size: 'large' },
+// };
+// let capitalize = (word) => word[0].toUpperCase() + word.slice(1)
+// let newObj = Object.values(obj1);
+// let mappedObj = newObj.map(subObj => {
+//     if (subObj.type === 'fruit'){
+//       return subObj.colors.map(char => capitalize(char));
+//     } else {
+//       return subObj.size.toUpperCase();
+//     };
+//  }
+// );
+// console.log(mappedObj)
 
 // ## Practice Problem 15
 // return an array which contains only the objects where all the numbers are even
+/* Will require filter reduce based on inclusion of value % 2 ===1 or sum of all values 
+Code path:
+input: array of objects
+output: array of objects
+map object, if every of the values of the object are even, return - else do not return
+*/
 
 let arr15 = [
   { a: [1, 2, 3] },
@@ -239,10 +256,32 @@ let arr15 = [
   { e: [8], f: [6, 10] },
 ];
 
-// ## Practice Problem 16
-// returns an object where the key is the first item in each subarray, and the value is the second.
-let arr16 = [['a', 1], ['b', 'two'], ['sea', {'c': 3}], ['D', ['a', 'b', 'c']]];
+let newArr15 = arr15.filter(subObj => {
+  return Object.values(subObj).every(subArr => {
+    return subArr.every(num => num % 2 === 0)
+  });
+});
 
+
+// console.log(newArr15);
+
+
+// ## Practice Problem 16
+// returns an object where the key is the first item in each subarray,
+// and the value is the second.
+/*
+input: nested array
+output: object
+map first element as key, property as second element
+// */
+// let arr16 = [['a', 1], ['b', 'two'], ['sea', {'c': 3}], ['D', ['a', 'b', 'c']]];
+// let newObj = {}
+// arr16.forEach(subArr => {
+//     let key=subArr[0];
+//     let value =subArr[1];
+//     newObj[key]=value;
+// });
+// arr16
 // expected return value of function call
 // { a: 1, b: 'two', sea: { c: 3 }, D: [ 'a', 'b', 'c' ] }
 
@@ -250,4 +289,48 @@ let arr16 = [['a', 1], ['b', 'two'], ['sea', {'c': 3}], ['D', ['a', 'b', 'c']]];
 // ## Practice Problem 17
 // Write a function that takes no parameters and returns a UUID.
 // Each UUID consists of 32 hexadecimal characters (the digits 0-9 and the letters a-f) represented as a string. 
-// The value is typically broken into 5 sections in an 8-4-4-4-12 pattern, e.g., 'f65c57f6-a6aa-17a8-faa1-a67f2dc9fa91'.
+// The value is typically broken into 5 sections in an 8-4-4-4-12 pattern
+
+
+// let uuidCreator = () => {
+//   const uuidCharacters = [1,2,3,4,5,6,7,8,9,0,'a','b','c','d','e','f'];
+//   const sections = [8,4,4,4,12];
+//   let uuidOutput ='';
+//   let randomIndex = () =>  Math.floor(Math.random() * uuidCharacters.length);
+//   sections.forEach(section,sectionIndex => {
+//     for (let index = 1; index <=sections; index ++){
+//       uuidOutput += uuidCharacters[randomIndex]
+//     };
+//     if (sectionIndex< sections.length -1){
+//       uuidOutput += '-'
+//     };
+//   });
+//   return uuidOutput;
+
+
+// };  
+// uuidCreator();
+
+function generateUUID() {
+  let characters = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'];
+  let sections = [8, 4, 4, 4, 12];
+
+  let uuid = '';
+  sections.forEach((section, sectionIndex) => {
+    for (let index = 1; index <= section; index++) {
+      let randomIndex = Math.floor(Math.random() * characters.length);
+      uuid += characters[randomIndex];
+    }
+
+    if (sectionIndex < sections.length - 1) {
+      uuid += '-';
+    }
+  });
+
+  return uuid;
+  console.log(uuid);
+}
+
+console.log(generateUUID()); // => '02e51c2f-dacd-c319-53b5-e40e6e8c1f78'
+generateUUID(); // => '39038ab9-3b95-43d8-6959-5d785ccb9b69'
+generateUUID(); // => 'f7d56480-c5b2-8d4d-465f-01a4ea605729'
